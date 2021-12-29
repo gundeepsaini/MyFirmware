@@ -22,11 +22,11 @@ const char* mqtt_password   = SECRET_MQTT_Pass;
 
 
 // Light
-#define MQTT_TOPIC_STATE_LIGHT "HA/Custom05_Sonoff_Bedroom/state" 
-#define MQTT_TOPIC_CMD_LIGHT   "HA/Custom05_Sonoff_Bedroom/cmd"  
+#define MQTT_TOPIC_STATE_LIGHT "HA/Custom04_Sonoff_Livingroom/state" 
+#define MQTT_TOPIC_CMD_LIGHT   "HA/Custom04_Sonoff_Livingroom/cmd"  
 
 // Will Topic - Availability
-#define MQTT_TOPIC_WILL        "HA/Custom05_Sonoff_Bedroom/status"     
+#define MQTT_TOPIC_WILL        "HA/Custom04_Sonoff_Livingroom/status"     
 #define MQTT_OFFLINE           "Offline"
 #define MQTT_ONLINE            "Active"
 
