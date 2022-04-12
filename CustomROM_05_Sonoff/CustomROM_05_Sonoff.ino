@@ -18,6 +18,10 @@ Note:
     only applicable if programming via serial (not OTA)
 
 
+
+Current Location: Living Room
+
+
 ------------------------------------------- */
 
 

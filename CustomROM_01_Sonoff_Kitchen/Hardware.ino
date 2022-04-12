@@ -17,7 +17,6 @@ void Hardware_Defaults()
 }
 
 
-
 void Hardware_Interupt_Config()
 {
   attachInterrupt(digitalPinToInterrupt(Button_Pin), Handle_ButtonPress, FALLING);          // Active low
@@ -50,6 +49,33 @@ ICACHE_RAM_ATTR void Handle_ButtonPress()
 
 long MotionOn_last_timeStamp, MotionOff_last_timeStamp;
 bool last_montionState;
+long RelayCmd_last_timeStamp;
+
+void Relay_Control(int cmd)
+{
+  if(millis() - RelayCmd_last_timeStamp < 2000)
+  {
+    // commands too close to each other - debouce problem
+    // turn the light on and ignore the original command
+
+      RelayState = 1;
+      digitalWrite(Relay_Pin, RelayState);
+  }
+  else
+  {
+    // Execute cmd normally; enough time has passed
+
+      RelayState = cmd;
+      digitalWrite(Relay_Pin, RelayState);
+
+      // record time of command
+      RelayCmd_last_timeStamp = millis();
+  }
+
+}
+
+
+
 
 void Motion_Detected_Actions()
 {
@@ -70,7 +96,7 @@ void Motion_Detected_Actions()
         if(Motion_Control)
         {
           RelayState = 1;
-          digitalWrite(Relay_Pin, RelayState);
+          Relay_Control(RelayState);
         }
 
         MQTT_heartbeat();
@@ -86,7 +112,7 @@ void Motion_Detected_Actions()
         if(Motion_Control)
         {
           RelayState = 0;
-          digitalWrite(Relay_Pin, RelayState);
+          Relay_Control(RelayState);
         }
 
         MQTT_heartbeat();
@@ -102,7 +128,7 @@ void ButtonPress_Actions()
   Turn_LED_On();
 
   RelayState = !RelayState;
-  digitalWrite(Relay_Pin, RelayState);
+  Relay_Control(RelayState);
   MotionOn_last_timeStamp = millis()/1000;
 
   MQTT_heartbeat();
@@ -152,7 +178,7 @@ void Motion_Detected_Actions_Updated()
         // Turn on relay - do it only once
         Turn_LED_On();
         RelayState = 1;
-        digitalWrite(Relay_Pin, RelayState);
+        Relay_Control(RelayState);
                 
         MQTT_heartbeat();
       }
@@ -172,7 +198,7 @@ void Motion_Detected_Actions_Updated()
             {
               MotionOn_last_timeStamp = 0;                     
               RelayState = 0;
-              digitalWrite(Relay_Pin, RelayState);
+              Relay_Control(RelayState);              
                       
               MQTT_heartbeat();        
             }          
