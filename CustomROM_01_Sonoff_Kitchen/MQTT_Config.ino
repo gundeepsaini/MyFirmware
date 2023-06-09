@@ -34,8 +34,8 @@ const char* mqtt_password   = SECRET_MQTT_Pass;
 #define MQTT_OFFLINE           "Offline"
 #define MQTT_ONLINE            "Active"
 
-#define MQTT_ON                "ON"
-#define MQTT_OFF               "OFF"
+#define MQTT_ON                "1"
+#define MQTT_OFF               "0"
 
 
 
@@ -95,13 +95,7 @@ void MQTT_MessageRecd_callback(char* p_topic, byte* p_payload, unsigned int p_le
 
   if (String(MQTT_TOPIC_CMD_LIGHT).equals(p_topic)) 
   {
-    int cmd=0;
-    if (String(MQTT_ON).equals(payload))
-      cmd = 1;
-    if (String(MQTT_OFF).equals(payload)) 
-      cmd = 0;
-    if(payload.toInt() == 0 || payload.toInt() == 1)
-      cmd = payload.toInt();
+    int cmd = payload.toInt();
     
     Serial.print("MQTT CMD Light:");
     Serial.println(cmd);
