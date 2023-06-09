@@ -89,7 +89,15 @@ void MQTT_MessageRecd_callback(char* p_topic, byte* p_payload, unsigned int p_le
 
   if (String(MQTT_TOPIC_CMD_LIGHT).equals(p_topic)) 
   {
-    int cmd = payload.toInt();
+    int cmd=0;
+    if (String(MQTT_ON).equals(payload))
+      cmd = 1;
+    if (String(MQTT_OFF).equals(payload)) 
+      cmd = 0;
+    if(payload.toInt() == 0 || payload.toInt() == 1)
+      cmd = payload.toInt();
+
+    
     Serial.print("MQTT CMD Light:");
     Serial.println(cmd);
     
