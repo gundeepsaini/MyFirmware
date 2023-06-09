@@ -29,8 +29,8 @@ const char* mqtt_password   = SECRET_MQTT_Pass;
 #define MQTT_OFFLINE           "Offline"
 #define MQTT_ONLINE            "Active"
 
-#define MQTT_ON                "ON"
-#define MQTT_OFF               "OFF"
+#define MQTT_ON                "1"
+#define MQTT_OFF               "0"
 
 
 
